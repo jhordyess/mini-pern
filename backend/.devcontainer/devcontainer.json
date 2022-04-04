@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "dockerComposeFile": ["../../docker-compose.yml"],
+  "service": "backend",
+  "shutdownAction": "none",
+  "extensions": [
+    "eg2.vscode-npm-script",
+    "esbenp.prettier-vscode",
+    "Prisma.prisma",
+    "xabikos.JavaScriptSnippets"
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "postCreateCommand": "bash init.sh",
+  "workspaceFolder": "/mini-proyecto-pern/backend",
+  "remoteUser": "node"
+}

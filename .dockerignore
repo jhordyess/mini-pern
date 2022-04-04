@@ -1,0 +1,4 @@
+backend/.devcontainer
+backend/node_modules
+frontend/.devcontainer
+frontend/node_modules

@@ -1,0 +1,33 @@
+#? https://code.visualstudio.com/remote/advancedcontainers/connect-multiple-containers
+services:
+  pg-sql:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: yL8!-Au@f4sM2Pe3fN!E
+    volumes:
+      - ./database/install-db.sh:/docker-entrypoint-initdb.d/install-db.sh
+  backend:
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+    volumes:
+      - .:/mini-proyecto-pern:cached
+    # command: /bin/bash -c "/mini-proyecto-pern/backend/install.sh"
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    ports:
+      - "81:80"
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.dockerfile
+    volumes:
+      - .:/mini-proyecto-pern:cached
+    # command: /bin/bash -c "/mini-proyecto-pern/frontend/install.sh"
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    # links:
+    #   - backend
+    ports:
+      - "80:3000"
