@@ -8,11 +8,11 @@ CRUD en desarrollo 🏗, usando el stack PERN.
 
 ![Modelo logico](/database/modelo_logico.drawio.png)
 
-### Interaccion
+### Interacción
 
 ![Interaccion](/Interaccion.drawio.png)
 
-### Coneccion a BBDD y puertos
+### Conexión a BBDD y puertos
 
 Siguiendo lo establecido en `docker-compose.yml` y `/database/install-db.sh`, la información para `.env` de Prisma es:
 
