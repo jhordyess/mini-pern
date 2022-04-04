@@ -9,7 +9,7 @@ datasource db {
 
 model Articulo {
   id                Int       @id @default(autoincrement())
-  codigo            String    @db.VarChar(50)
+  codigo            String    @unique @db.VarChar(50)
   detalles          String    @db.VarChar(50)
   nombre            String    @db.VarChar(50)
   precio            Int
@@ -24,12 +24,12 @@ model Articulo {
 
 model Categoria {
   id        Int        @id @default(autoincrement())
-  nombre    String     @db.VarChar(50)
+  nombre    String     @unique @db.VarChar(50)
   articulos Articulo[]
 }
 
 model Marca {
   id        Int        @id @default(autoincrement())
-  nombre    String     @db.VarChar(50)
+  nombre    String     @unique @db.VarChar(50)
   articulos Articulo[]
 }
