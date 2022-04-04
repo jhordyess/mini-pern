@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Articulo {
+  id                Int       @id @default(autoincrement())
+  codigo            String    @db.VarChar(50)
+  detalles          String    @db.VarChar(50)
+  nombre            String    @db.VarChar(50)
+  precio            Int
+  stock             Int
+  fecha_de_creacion DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
+  baja              Boolean?  @default(false)
+  id_categoria      Int
+  id_marca          Int
+  categoria         Categoria @relation(fields: [id_categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_articulo_categoria")
+  marca             Marca     @relation(fields: [id_marca], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_articulo_marca")
+}
+
+model Categoria {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @db.VarChar(50)
+  articulos Articulo[]
+}
+
+model Marca {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @db.VarChar(50)
+  articulos Articulo[]
+}
