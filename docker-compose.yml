@@ -15,8 +15,8 @@ services:
       dockerfile: backend.dockerfile
     volumes:
       - .:/mini-proyecto-pern:cached
-    # command: /bin/bash -c "/mini-proyecto-pern/backend/install.sh"
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    command: /bin/bash -c "/mini-proyecto-pern/backend/install.sh"
+    # command: /bin/sh -c "while sleep 1000; do :; done"
     ports:
       - "81:80"
   frontend:
@@ -25,8 +25,8 @@ services:
       dockerfile: frontend.dockerfile
     volumes:
       - .:/mini-proyecto-pern:cached
-    # command: /bin/bash -c "/mini-proyecto-pern/frontend/install.sh"
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    command: /bin/bash -c "/mini-proyecto-pern/frontend/install.sh"
+    # command: /bin/sh -c "while sleep 1000; do :; done"
     # links:
     #   - backend
     ports:

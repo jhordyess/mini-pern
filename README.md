@@ -28,6 +28,24 @@ La redirección de puertos (que usa Axios también), es:
 - frontend: <http://localhost:80>
 - bbdd: <http://localhost:5432>
 
+### Sin datos
+
+De momento esta versión aún no permite la creación de registros, pero se tiene implementado un `post` `request` para el backend: <http://localhost:81/articulos> con el siguiente body:
+
+```[javascript]
+{
+    "codigo": "AL-2",
+    "nombre": "Nombre 1",
+    "precio": 50,
+    "stock": 100,
+    "detalles": "",
+    "categoria":"Categoria 2",
+    "marca":"Marca 2"
+}
+```
+
+Nótese que el campo **codigo** es único.
+
 ## Dev Info
 
 - JavaScript library: [Meta - React](https://reactjs.org/)

@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import MUIDTserver from "./components/jhs-mui-dt/Index";
+const exampleCols = [
+  { name: "id", label: "id", options: { display: "excluded" } },
+  { name: "codigo", label: "Codigo" },
+  { name: "nombre", label: "Nombre" },
+  { name: "precio", label: "Precio" },
+  { name: "stock", label: "Stock" },
+  { name: "categoria", label: "Categoria" },
+  { name: "marca", label: "Marca" },
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MUIDTserver
+      url="articulo"
+      columns={exampleCols}
+      title="Lista de articulos"
+    />
   );
 }
 
