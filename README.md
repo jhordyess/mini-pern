@@ -7,6 +7,7 @@ CRUD en desarrollo 🏗, usando el stack PERN.
 ### BBDD
 
 ![Modelo logico](/database/modelo_logico.drawio.png)
+<a href="https://app.diagrams.net/#Uhttps%3A%2F%2Fgithub.com%2Fjhordyess%2Fmini-proyecto-pern%2Fraw%2Fmain%2FInteraccion.drawio.png" target="_blank">Edit in diagrams.net</a>
 
 ### Interacción
 
