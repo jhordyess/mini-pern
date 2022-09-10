@@ -1,4 +1,3 @@
-#? https://code.visualstudio.com/remote/advancedcontainers/connect-multiple-containers
 services:
   pg-sql:
     image: postgres
@@ -6,28 +5,26 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: yL8!-Au@f4sM2Pe3fN!E
+      - POSTGRES_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
     volumes:
-      - ./database/install-db.sh:/docker-entrypoint-initdb.d/install-db.sh
+      - ./build/database/config.sh:/docker-entrypoint-initdb.d/config.sh
   backend:
-    build:
-      context: .
-      dockerfile: backend.dockerfile
+    image: jhordyess/node:16
     volumes:
-      - .:/mini-proyecto-pern:cached
-    command: /bin/bash -c "/mini-proyecto-pern/backend/install.sh"
-    # command: /bin/sh -c "while sleep 1000; do :; done"
+      - .:/mini-pern:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      - BACKEND_PATH=/mini-pern/backend
+      - DATABASE_URL
     ports:
-      - "81:80"
+      - "4062:4062"
   frontend:
-    build:
-      context: .
-      dockerfile: frontend.dockerfile
+    image: jhordyess/node:16
     volumes:
-      - .:/mini-proyecto-pern:cached
-    command: /bin/bash -c "/mini-proyecto-pern/frontend/install.sh"
-    # command: /bin/sh -c "while sleep 1000; do :; done"
-    # links:
-    #   - backend
+      - .:/mini-pern:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
     ports:
-      - "80:3000"
+      - "3640:3640"

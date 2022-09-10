@@ -1,21 +1,21 @@
+import React from "react";
 import MUIDataTable from "mui-datatables";
-import { useState } from "react";
-import { textLabels } from "./textLabels";
+//
 import { request } from "./api-get";
 
 const MUIDTserver = ({
-  title = "Lista desconocida",
+  title = "List",
   options = {},
   columns = [],
   url = "",
 }) => {
-  const [tData, setData] = useState([]);
+  const [tData, setData] = React.useState([]);
 
-  const [render, setRender] = useState({
+  const [render, setRender] = React.useState({
     count: 0,
   });
 
-  const [params, setParams] = useState({
+  const [params, setParams] = React.useState({
     page: 0,
     rowsPerPage: 5,
     sortOrder: {},
@@ -25,10 +25,10 @@ const MUIDTserver = ({
     url: url,
     params: params,
     setParams: setParams,
-    onResponse: ({ count, data }) => {
+    onResponse: ({ count, list }) => {
       render.count = count;
       setRender({ ...render });
-      setData(data);
+      setData(list);
     },
   };
 
@@ -36,7 +36,7 @@ const MUIDTserver = ({
     ...options,
 
     serverSide: true,
-    textLabels: textLabels,
+    // textLabels: textLabels,
     filter: false,
     search: false,
     rowsPerPageOptions: [1, 5, 10, 20, 50],

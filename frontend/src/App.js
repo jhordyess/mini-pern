@@ -1,22 +1,20 @@
+import React from "react";
 import "./App.css";
-import MUIDTserver from "./components/jhs-mui-dt/Index";
+//TODO fix path name
+import MUIDTserver from "./components/MUIDTserver/MUIDTserver.js";
 const exampleCols = [
   { name: "id", label: "id", options: { display: "excluded" } },
-  { name: "codigo", label: "Codigo" },
-  { name: "nombre", label: "Nombre" },
-  { name: "precio", label: "Precio" },
+  { name: "sku", label: "SKU" },
+  { name: "productName", label: "Product Name" },
+  { name: "price", label: "Price" },
   { name: "stock", label: "Stock" },
-  { name: "categoria", label: "Categoria" },
-  { name: "marca", label: "Marca" },
+  { name: "category", label: "Category" },
+  { name: "brand", label: "Brand" },
 ];
 
 function App() {
   return (
-    <MUIDTserver
-      url="articulo"
-      columns={exampleCols}
-      title="Lista de articulos"
-    />
+    <MUIDTserver url="product" columns={exampleCols} title="Products list" />
   );
 }
 

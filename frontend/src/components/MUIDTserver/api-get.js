@@ -1,4 +1,4 @@
-import { api } from "../../utils/Api";
+import api from "@utils/Api";
 
 export const request = ({ url, onResponse, params, setParams }) => {
   const get = async () => {
@@ -8,7 +8,7 @@ export const request = ({ url, onResponse, params, setParams }) => {
         params: params,
         requestType: "GET",
       });
-      await onResponse(data);
+      await onResponse(data.data);
     } catch (error) {
       console.log("error", error);
     }

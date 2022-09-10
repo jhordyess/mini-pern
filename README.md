@@ -1,52 +1,28 @@
-# mini-proyecto PERN
+# Mini PERN project
 
-CRUD en desarrollo 🏗, usando el stack PERN.
+CRUD under construction 🏗, using the PERN stack.
 
-## Descripción
+## Info
 
-### BBDD
+### Database
 
-![Modelo logico](/database/modelo_logico.drawio.png)
+![Logical model](/build/database/logical_model.drawio.png)
 
-### Interacción
+### Interaction
 
-![Interaccion](/Interaccion.drawio.png)
+![Interaction](/interaction.drawio.png)
 
-<a href="https://app.diagrams.net/#Uhttps%3A%2F%2Fgithub.com%2Fjhordyess%2Fmini-proyecto-pern%2Fraw%2Fmain%2FInteraccion.drawio.png" target="_blank">Edit in diagrams.net</a>
+<a href="https://app.diagrams.net/#Uhttps%3A%2F%2Fgithub.com%2Fjhordyess%2Fmini-pern%2Fraw%2Fmain%2Finteraction.drawio.png" target="_blank">Edit in diagrams.net</a>
 
-### Conexión a BBDD y puertos
+### Ports
 
-Siguiendo lo establecido en `docker-compose.yml` y `/database/install-db.sh`, la información para `.env` de Prisma es:
+- backend: <http://localhost:4062>
+- frontend: <http://localhost:3640>
+- database: <http://localhost:5432>
 
-- Usuario: _admin-user_
-- Contraseña: _7jWflTrT6tcKzVz9k0Ir_
-- Host: _pg-sql_
-- Puerto: _5432_
-- Base de datos: _crud-db_
+### Postman
 
-La redirección de puertos (que usa Axios también), es:
-
-- backend: <http://localhost:81>
-- frontend: <http://localhost:80>
-- bbdd: <http://localhost:5432>
-
-### Sin datos
-
-De momento esta versión aún no permite la creación de registros, pero se tiene implementado un `post` `request` para el backend: <http://localhost:81/articulos> con el siguiente body:
-
-```[javascript]
-{
-    "codigo": "AL-2",
-    "nombre": "Nombre 1",
-    "precio": 50,
-    "stock": 100,
-    "detalles": "",
-    "categoria":"Categoria 2",
-    "marca":"Marca 2"
-}
-```
-
-Nótese que el campo **codigo** es único.
+Import the [postman_collection.json](/postman_collection.json) and send requests.
 
 ## Dev Info
 
@@ -60,5 +36,15 @@ Nótese que el campo **codigo** es único.
 - Open source object-relational database: [PostgreSQL](https://www.postgresql.org/)
 - [VSCode](https://code.visualstudio.com/) with [remote containers](https://code.visualstudio.com/docs/remote/containers) ([Docker](https://www.docker.com/) multiple containers with [NodeJS](https://nodejs.org/))
 
+## TODO
+
+- Complete the CRUD, only read available.
+- Make multi-container Docker scripts.
+
+## License
+
+© 2022 [Jhordyess](https://github.com/jhordyess). Under the [MIT](https://choosealicense.com/licenses/mit/) license.
+
 ---
-@2022 Jhordyess
+
+Made with 💪 by [Jhordyess](https://www.jhordyess.com/)

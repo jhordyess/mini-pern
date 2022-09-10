@@ -3,15 +3,18 @@
   "dockerComposeFile": ["../../docker-compose.yml"],
   "service": "frontend",
   "shutdownAction": "none",
-  "extensions": [
-    "eg2.vscode-npm-script",
-    "esbenp.prettier-vscode",
-    "burkeholland.simple-react-snippets"
-  ],
-  "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "burkeholland.simple-react-snippets"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
   },
-  "postCreateCommand": "bash init.sh",
-  "workspaceFolder": "/mini-proyecto-pern/frontend",
+  "postCreateCommand": "bash config.sh",
+  "workspaceFolder": "/mini-pern/frontend",
   "remoteUser": "node"
 }

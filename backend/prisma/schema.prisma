@@ -7,29 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Articulo {
-  id                Int       @id @default(autoincrement())
-  codigo            String    @unique @db.VarChar(50)
-  detalles          String    @db.VarChar(50)
-  nombre            String    @db.VarChar(50)
-  precio            Int
-  stock             Int
-  fecha_de_creacion DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
-  baja              Boolean?  @default(false)
-  id_categoria      Int
-  id_marca          Int
-  categoria         Categoria @relation(fields: [id_categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_articulo_categoria")
-  marca             Marca     @relation(fields: [id_marca], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_articulo_marca")
+model Product {
+  id          Int       @id @default(autoincrement())
+  sku         String    @unique
+  details     String
+  productName String
+  price       Int
+  stock       Int
+  createdAt   DateTime? @default(now())
+  deleted     Boolean?  @default(false)
+  categoryId  Int
+  brandId     Int
+  category    Category  @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  brand       Brand     @relation(fields: [brandId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
-model Categoria {
-  id        Int        @id @default(autoincrement())
-  nombre    String     @unique @db.VarChar(50)
-  articulos Articulo[]
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
 }
 
-model Marca {
-  id        Int        @id @default(autoincrement())
-  nombre    String     @unique @db.VarChar(50)
-  articulos Articulo[]
+model Brand {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
 }

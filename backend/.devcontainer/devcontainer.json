@@ -3,16 +3,19 @@
   "dockerComposeFile": ["../../docker-compose.yml"],
   "service": "backend",
   "shutdownAction": "none",
-  "extensions": [
-    "eg2.vscode-npm-script",
-    "esbenp.prettier-vscode",
-    "Prisma.prisma",
-    "xabikos.JavaScriptSnippets"
-  ],
-  "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "xabikos.JavaScriptSnippets"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
   },
-  "postCreateCommand": "bash init.sh",
-  "workspaceFolder": "/mini-proyecto-pern/backend",
+  "postCreateCommand": "bash config.sh",
+  "workspaceFolder": "/mini-pern/backend",
   "remoteUser": "node"
 }
