@@ -10,7 +10,7 @@ services:
       - DB_PASSWORD
       - DB_NAME
     volumes:
-      - ./build/database/config.sh:/docker-entrypoint-initdb.d/config.sh
+      - ./database/config.sh:/docker-entrypoint-initdb.d/config.sh
   backend:
     depends_on:
       - pg-sql

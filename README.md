@@ -6,7 +6,7 @@ CRUD under construction 🏗, using the PERN stack.
 
 ### Database
 
-![Logical model](/build/database/logical_model.drawio.png)
+![Logical model](/database/logical_model.drawio.png)
 
 ### Interaction
 
