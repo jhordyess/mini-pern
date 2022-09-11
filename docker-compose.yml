@@ -12,16 +12,19 @@ services:
     volumes:
       - ./build/database/config.sh:/docker-entrypoint-initdb.d/config.sh
   backend:
+    depends_on:
+      - pg-sql
     image: jhordyess/node:16
     volumes:
       - .:/mini-pern:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
-      - BACKEND_PATH=/mini-pern/backend
       - DATABASE_URL
     ports:
       - "4062:4062"
   frontend:
+    depends_on:
+      - backend
     image: jhordyess/node:16
     volumes:
       - .:/mini-pern:cached

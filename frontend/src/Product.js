@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./Product.css";
 //TODO fix path name
 import MUIDTserver from "./components/MUIDTserver/MUIDTserver.js";
 const exampleCols = [

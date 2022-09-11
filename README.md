@@ -24,22 +24,29 @@ CRUD under construction 🏗, using the PERN stack.
 
 Import the [postman_collection.json](/postman_collection.json) and send requests.
 
+## Multi-container Docker app
+
+Run the `build.sh` file, it will create a new project named `mini-pern` and run it; so you can visit:
+
+- backend: <http://localhost:4062>
+- frontend: <http://localhost:3640>
+
 ## Dev Info
 
 - JavaScript library: [Meta - React](https://reactjs.org/)
-- Build tool: [Meta - Create React App](https://create-react-app.dev/)
 - React UI library: [Material-UI](https://mui.com/)
 - Responsible datatables component: [MUI-Datatables - Datatables for Material-UI](https://github.com/gregnb/mui-datatables)
 - Promise-based HTTP client: [Axios](https://axios-http.com/)
 - Web framework: [Express](http://expressjs.com/)
 - Open source ORM: [Prisma](https://www.prisma.io/)
 - Open source object-relational database: [PostgreSQL](https://www.postgresql.org/)
-- [VSCode](https://code.visualstudio.com/) with [remote containers](https://code.visualstudio.com/docs/remote/containers) ([Docker](https://www.docker.com/) multiple containers with [NodeJS](https://nodejs.org/))
+- Module bundler: [OpenJS Foundation - Webpack](https://webpack.js.org/)
+- Server Environment : [OpenJS Foundation - Node.js](https://nodejs.org/)
+- [VSCode](https://code.visualstudio.com/) with [remote containers](https://code.visualstudio.com/docs/remote/containers) ([Docker](https://www.docker.com/) multiple containers)
 
 ## TODO
 
 - Complete the CRUD, only read available.
-- Make multi-container Docker scripts.
 
 ## License
 

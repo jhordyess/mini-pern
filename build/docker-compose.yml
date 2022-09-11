@@ -1,0 +1,29 @@
+services:
+  pg-sql:
+    restart: always
+    build:
+      context: .
+      dockerfile: database.dockerfile
+    environment:
+      - POSTGRES_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+  backend:
+    depends_on:
+      - pg-sql
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+      args:
+        - DATABASE_URL
+    ports:
+      - "4062:4062"
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: .
+      dockerfile: frontend.dockerfile
+    ports:
+      - "3640:3640"
