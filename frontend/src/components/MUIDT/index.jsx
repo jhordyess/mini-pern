@@ -7,8 +7,9 @@ import tableChanges from "./options/tableChanges";
 import customToolbar from "./options/customToolbar";
 import customToolbarSelect from "./options/customToolbarSelect";
 import renderExpandableRow from "./options/renderExpandableRow";
+import Alert from "@components/Alert";
 
-const MUIDTserver = ({
+const MUIDT = ({
   url = "",
   title = "List",
   options = {},
@@ -17,8 +18,10 @@ const MUIDTserver = ({
   CustomToolbar = null,
   CustomToolbarSelect = null,
   CustomToolbarSelectN = null,
-  Detail = null,
+  ExpandableRow = null,
 }) => {
+  const alertRef = React.useRef();
+
   const [data, setData] = React.useState([]);
 
   const [render, setRender] = React.useState({
@@ -30,6 +33,13 @@ const MUIDTserver = ({
     rowsPerPage: 5,
     sortOrder: {},
   });
+
+  const alert = ({ msg = "Unknow", severity = "error" }) => {
+    alertRef.current.handleOpen({
+      msg,
+      severity,
+    });
+  };
 
   const serverGet = async () => {
     try {
@@ -43,7 +53,12 @@ const MUIDTserver = ({
       setRender({ ...render });
       setData(list);
     } catch (error) {
-      console.log("error", error);
+      // TODO handle other errors
+      const _response = error.response?.data;
+      alert({
+        msg: _response?.data?.error || "Request failed",
+        severity: "error",
+      });
     }
   };
 
@@ -64,25 +79,29 @@ const MUIDTserver = ({
       setParams,
       action: serverGet,
     }),
-    ...customToolbar({ CustomToolbar, serverGet, formData, url }),
+    ...customToolbar({ CustomToolbar, serverGet, formData, url, alert }),
     ...customToolbarSelect({
       CustomToolbarSelect,
       CustomToolbarSelectN,
       serverGet,
       formData,
       url,
+      alert,
     }),
-    ...renderExpandableRow({ Detail, url }),
+    ...renderExpandableRow({ ExpandableRow, url, alert }),
     ...options,
   };
 
   return (
-    <MUIDataTable
-      title={title}
-      data={data}
-      columns={columns}
-      options={_options}
-    />
+    <>
+      <MUIDataTable
+        title={title}
+        data={data}
+        columns={columns}
+        options={_options}
+      />
+      <Alert ref={alertRef} />
+    </>
   );
 };
-export default MUIDTserver;
+export default MUIDT;

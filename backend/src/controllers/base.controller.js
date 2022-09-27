@@ -2,9 +2,11 @@ import { PrismaClient } from "@prisma/client";
 
 export default class BaseController {
   prisma;
+  relation;
 
-  constructor() {
+  constructor(relation = []) {
     this.prisma = new PrismaClient();
+    this.relation = relation;
   }
 
   disconnect = async () => {
@@ -36,16 +38,11 @@ export default class BaseController {
   /**
    * OrderBy query
    * @param {(string | Object)} sortOrder - String into object.
-   * @param {Object[]} fk_relation - Array of objects, for n to 1 relations with some table.
    * @returns {Object[]}
-   *
-   * @example
-   *
-   *      cvOrderBy({ name: "stock", direction: "desc" }, [{ col: "brand", subcol: "name" }, ]);
    */
 
-  prismaOrderBy = (sortOrder = {}, fk_relation = []) => {
-    let ordenar = [];
+  prismaOrderBy = (sortOrder = {}) => {
+    let order = [];
     if (typeof sortOrder === "string") {
       sortOrder = JSON.parse(sortOrder);
     }
@@ -54,16 +51,30 @@ export default class BaseController {
       typeof sortOrder.direction !== "undefined"
     ) {
       const aux = {};
-      const n_1 = fk_relation.find((str) => str.col === sortOrder.name);
+      const n_1 = this.relation.find((str) => str.table === sortOrder.name);
       if (typeof n_1 !== "undefined") {
         const temp = {};
-        temp[String(n_1.subcol)] = String(sortOrder.direction);
-        aux[String(n_1.col)] = temp;
+        temp[n_1.column] = String(sortOrder.direction);
+        aux[n_1.table] = temp;
       } else {
-        aux[String(sortOrder.name)] = String(sortOrder.direction);
+        aux[sortOrder.name] = String(sortOrder.direction);
       }
-      ordenar = [aux];
+      order = [aux];
     }
-    return ordenar;
+    return order;
+  };
+
+  formatRelation = (data = []) => data.map(this.formatObj);
+
+  /**
+   * Rewrite obj values, using this.relation. Ex: {table:{column:"123"}} => {table:"123"}
+   * @param {Object} obj
+   * @returns
+   */
+  formatObj = (obj = {}) => {
+    this.relation.forEach((item) => {
+      obj[item.table] = obj[item.table][item.column];
+    });
+    return obj;
   };
 }

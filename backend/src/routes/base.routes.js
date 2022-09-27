@@ -1,11 +1,9 @@
-import response from "../utils/routes.response.js";
 import { Router } from "express";
 
 export const BaseRouter = (routes = []) => {
   let router = Router();
 
   for (let route of routes) {
-    //? overload?
     const aux = async (req, res) => {
       let result = {};
       try {

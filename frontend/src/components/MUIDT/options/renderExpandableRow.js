@@ -7,16 +7,17 @@ const estilo = {
   borderBottom: "3px solid rgba(224, 224, 224, 1)",
 };
 
-export default function renderExpandableRow({ Detail, url }) {
+export default function renderExpandableRow({ ExpandableRow, url, alert }) {
   return {
     renderExpandableRow: (rowData, rowMeta) => {
-      //TODO Complete this
       const id = rowData[0];
       const colSpan = rowData.length + 1;
       return (
         <TableRow style={estilo}>
           <TableCell colSpan={colSpan}>
-            {Detail && <Detail id={id} url={url} />}
+            {ExpandableRow && (
+              <ExpandableRow url={url + "/" + id} alert={alert} />
+            )}
           </TableCell>
         </TableRow>
       );

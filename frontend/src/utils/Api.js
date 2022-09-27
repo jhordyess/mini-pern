@@ -19,10 +19,10 @@ export default function api({ url, requestType, params = {} }) {
       promise = API.post(url, params);
       break;
     case "PUT":
-      promesa = API.put(url, params);
+      promise = API.put(url, params);
       break;
     case "DELETE":
-      promesa = API.delete(url, { data: params });
+      promise = API.delete(url, { data: params });
       break;
     default:
       console.warn("Unsupported request type");

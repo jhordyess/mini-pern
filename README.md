@@ -1,6 +1,6 @@
 # Mini PERN project
 
-CRUD under construction 🏗, using the PERN stack.
+Simple React component using [MUI-Datatables](https://github.com/gregnb/mui-datatables), with CRUD requests using PERN stack.
 
 ## Info
 
@@ -43,10 +43,6 @@ Run the `build.sh` file, it will create a new project named `mini-pern` and run 
 - Module bundler: [OpenJS Foundation - Webpack](https://webpack.js.org/)
 - Server Environment : [OpenJS Foundation - Node.js](https://nodejs.org/)
 - [VSCode](https://code.visualstudio.com/) with [remote containers](https://code.visualstudio.com/docs/remote/containers) ([Docker](https://www.docker.com/) multiple containers)
-
-## TODO
-
-- Complete the CRUD, only read available.
 
 ## License
 

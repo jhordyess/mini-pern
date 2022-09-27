@@ -9,12 +9,12 @@ datasource db {
 
 model Product {
   id          Int       @id @default(autoincrement())
-  sku         String    @unique
-  details     String
-  productName String
-  price       Int
+  sku         String    @unique @db.VarChar(8)
+  details     String?
+  productName String    @db.VarChar
+  price       Decimal   @db.Decimal
   stock       Int
-  createdAt   DateTime? @default(now())
+  createdAt   DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
   deleted     Boolean?  @default(false)
   categoryId  Int
   brandId     Int
@@ -24,12 +24,14 @@ model Product {
 
 model Category {
   id       Int       @id @default(autoincrement())
-  name     String    @unique
+  name     String    @unique @db.VarChar
+  prodsQnt Int       @default(0)
   products Product[]
 }
 
 model Brand {
   id       Int       @id @default(autoincrement())
-  name     String    @unique
+  name     String    @unique @db.VarChar
+  prodsQnt Int       @default(0)
   products Product[]
 }

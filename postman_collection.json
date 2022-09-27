@@ -9,7 +9,7 @@
       "name": "Products",
       "item": [
         {
-          "name": "ListAllProducts",
+          "name": "List all products",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -46,49 +46,18 @@
           "response": []
         },
         {
-          "name": "CreateProduct",
+          "name": "Create product",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "sku",
-                  "value": "1000",
-                  "type": "text"
-                },
-                {
-                  "key": "productName",
-                  "value": "Red pencil",
-                  "type": "text"
-                },
-                {
-                  "key": "price",
-                  "value": "3",
-                  "type": "text"
-                },
-                {
-                  "key": "stock",
-                  "value": "12",
-                  "type": "text"
-                },
-                {
-                  "key": "details",
-                  "value": "5mm",
-                  "type": "text"
-                },
-                {
-                  "key": "category",
-                  "value": "Scholar",
-                  "type": "text"
-                },
-                {
-                  "key": "brand",
-                  "value": "Pilot",
-                  "type": "text"
+              "mode": "raw",
+              "raw": "{\n    \"productName\": \"Soap2\",\n    \"price\": 1.3,\n    \"stock\": 10,\n    \"category\": \"Beauty\",\n    \"brand\": \"Colgate\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
                 }
-              ]
+              }
             },
             "url": {
               "raw": "http://localhost:4062/product",
@@ -99,6 +68,80 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productName\": \"Soap85\",\n    \"price\": 1.3,\n    \"stock\": 10,\n    \"category\": \"Beauty\",\n    \"brand\": \"Colgate\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4062/product/8",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4062",
+              "path": ["product", "8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete products",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ids\": [\n        6\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4062/product",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4062",
+              "path": ["product"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get product info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4062/product/9?type=details",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4062",
+              "path": ["product", "9"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "basic",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "details"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -106,7 +149,7 @@
       "name": "Category",
       "item": [
         {
-          "name": "CreateCategory",
+          "name": "Create category",
           "request": {
             "method": "POST",
             "header": [],
@@ -136,7 +179,7 @@
       "name": "Brand",
       "item": [
         {
-          "name": "CreateBrand",
+          "name": "Create brand",
           "request": {
             "method": "POST",
             "header": [],
@@ -145,7 +188,7 @@
               "urlencoded": [
                 {
                   "key": "name",
-                  "value": "Pilot",
+                  "value": "Monami",
                   "type": "text"
                 }
               ]

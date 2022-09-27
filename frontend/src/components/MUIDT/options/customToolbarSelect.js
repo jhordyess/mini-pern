@@ -1,7 +1,7 @@
 import React from "react";
 //
-import Update from "./../defaults/create-update/Update";
-import Delete from "./../defaults/Delete";
+import Update from "../defaults/create-update/Update";
+import Delete from "../defaults/Delete";
 
 const getIDs = (selectedRows, displayData) => {
   let IDs = [];
@@ -18,9 +18,10 @@ export default function customToolbarSelect({
   serverGet,
   CustomToolbarSelect,
   CustomToolbarSelectN,
+  alert,
 }) {
   return {
-    //TODO Hacer persistente los conponentes
+    //TODO Hacer persistente los componentes
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       const IDs = getIDs(selectedRows, displayData);
 
@@ -37,6 +38,7 @@ export default function customToolbarSelect({
                 formData={formData}
                 afterSubmit={serverGet}
                 onClose={resetRows}
+                alert={alert}
               />
               {CustomToolbarSelect && (
                 <CustomToolbarSelect
@@ -44,6 +46,7 @@ export default function customToolbarSelect({
                   id={IDs[0]}
                   afterSubmit={serverGet}
                   onClose={resetRows}
+                  alert={alert}
                 />
               )}
             </>
@@ -55,6 +58,7 @@ export default function customToolbarSelect({
                 ids={IDs}
                 afterSubmit={serverGet}
                 onClose={resetRows}
+                alert={alert}
               />
               {CustomToolbarSelectN && (
                 <CustomToolbarSelectN
@@ -62,6 +66,7 @@ export default function customToolbarSelect({
                   ids={IDs}
                   afterSubmit={serverGet}
                   onClose={resetRows}
+                  alert={alert}
                 />
               )}
             </>

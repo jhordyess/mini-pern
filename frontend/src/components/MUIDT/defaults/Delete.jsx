@@ -2,7 +2,7 @@ import React from "react";
 import DialogContentText from "@mui/material/DialogContentText";
 import DeleteIcon from "@mui/icons-material/Delete";
 //
-import Toolbar from "./../Toolbar";
+import Toolbar from "../Toolbar";
 import api from "@utils/Api";
 
 const Delete = ({
@@ -14,20 +14,26 @@ const Delete = ({
   cancelButtonLabel = "Cancel",
   afterSubmit,
   onClose,
+  alert,
 }) => {
   const onSubmit = async () => {
     try {
-      //TODO show message info
-      //const { data: response } =
-      await api({
+      const { data: response } = await api({
         url,
-        params: ids,
+        params: { ids },
         requestType: "DELETE",
       });
-      // console.log("response", response);
+      alert({
+        msg: response?.data?.message || "Deleted",
+        severity: "success",
+      });
       if (afterSubmit) await afterSubmit();
     } catch (error) {
-      console.log("error", error);
+      const _response = error.response?.data;
+      alert({
+        msg: _response?.data?.error || "Request failed",
+        severity: "error",
+      });
     }
   };
 
@@ -43,10 +49,9 @@ const Delete = ({
         onClose,
       }}
       FormBody={
-        //TODO translate
         <DialogContentText>
-          Esta apunto de eliminar {ids.length} registro
-          {ids.length > 1 ? "s" : ""}. Debe confirmar esta accion.
+          Are you sure to delete {ids.length} item
+          {ids.length > 1 ? "s" : ""}? Please confirm.
         </DialogContentText>
       }
     />

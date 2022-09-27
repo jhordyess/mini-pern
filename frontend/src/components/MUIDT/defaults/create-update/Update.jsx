@@ -13,17 +13,22 @@ const Update = ({
   cancelButtonLabel = "Cancel",
   afterSubmit,
   onClose,
+  alert,
 }) => {
   const _onOpen = async (setValues) => {
     try {
-      //TODO show info
       const { data: response } = await api({
         url,
         requestType: "GET",
+        params: { type: "basic" },
       });
-      setValues(response);
+      setValues(response.data);
     } catch (error) {
-      console.log("error", error);
+      const _response = error.response?.data;
+      alert({
+        msg: _response?.data?.error || "Request failed",
+        severity: "error",
+      });
     }
   };
 
@@ -41,6 +46,7 @@ const Update = ({
         afterSubmit,
         onOpen: _onOpen,
         onClose,
+        alert,
       }}
     />
   );

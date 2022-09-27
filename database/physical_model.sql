@@ -1,17 +1,4 @@
 -- Create tables
-CREATE TABLE "Product" (
-	"id" SERIAL PRIMARY KEY,
-	"sku" VARCHAR NOT NULL UNIQUE,
-	"details" VARCHAR NOT NULL,
-	"productName" VARCHAR NOT NULL,
-	"price" INTEGER NOT NULL,
-	"stock" INTEGER NOT NULL,
-	"createdAt" DATE DEFAULT CURRENT_DATE,
-	"deleted" BOOLEAN DEFAULT false,
-	"categoryId" INTEGER NOT NULL,
-	"brandId" INTEGER NOT NULL
-);
-
 CREATE TABLE "Category" (
 	"id" SERIAL PRIMARY KEY,
 	"name" VARCHAR NOT NULL UNIQUE
@@ -22,13 +9,15 @@ CREATE TABLE "Brand" (
 	"name" VARCHAR NOT NULL UNIQUE
 );
 
--- Create foreign Key constraints
-ALTER TABLE "Product" ADD CONSTRAINT "fk_product_category"
-FOREIGN KEY ("categoryId") REFERENCES "Category" ("id")
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-
-ALTER TABLE "Product" ADD CONSTRAINT "fk_product_brand"
-FOREIGN KEY ("brandId") REFERENCES "Brand" ("id")
-ON UPDATE CASCADE
-ON DELETE CASCADE; 
+CREATE TABLE "Product" (
+	"id" SERIAL PRIMARY KEY,
+	"sku" VARCHAR(8) NOT NULL UNIQUE,
+	"details" TEXT NULL,
+	"productName" VARCHAR NOT NULL,
+	"price" NUMERIC NOT NULL-- CHECK ("price" > 0),
+	"stock" INTEGER NOT NULL-- CHECK ("price" >= 0),
+	"createdAt" DATE DEFAULT CURRENT_DATE,
+	"deleted" BOOLEAN DEFAULT false,
+	"categoryId" INTEGER NOT NULL REFERENCES "Category" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+	"brandId" INTEGER NOT NULL REFERENCES "Brand" ("id") ON UPDATE CASCADE ON DELETE CASCADE
+);

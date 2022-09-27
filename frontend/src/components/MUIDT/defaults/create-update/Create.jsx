@@ -1,11 +1,11 @@
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 //
-import Toolbar from "./../../Toolbar";
+import Toolbar from "../../Toolbar";
 import FormBody from "./FormBody";
 import api from "@utils/Api";
 
-const def = (formData = []) => {
+const _default = (formData = []) => {
   let obj = {};
   formData.forEach((value) => {
     obj[value.name] = value.default;
@@ -25,25 +25,30 @@ const Create = ({
   afterSubmit,
   onOpen = null,
   onClose = null,
+  alert,
 }) => {
-  //TODO review defaults and formData!
-  const defaults = def(formData);
+  const defaults = _default(formData);
 
   const [values, setValues] = React.useState(defaults);
 
   const onSubmit = async () => {
     try {
-      //TODO show info
-      //const { data: response } =
-      await api({
+      const { data: response } = await api({
         url,
         params: values,
         requestType,
       });
-      // console.log("response", response);
+      alert({
+        msg: response?.data?.message,
+        severity: "success",
+      });
       if (afterSubmit) await afterSubmit();
     } catch (error) {
-      console.log("error", error);
+      const _response = error.response?.data;
+      alert({
+        msg: _response?.data?.error || "Request failed",
+        severity: "error",
+      });
     }
   };
 
