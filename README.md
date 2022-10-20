@@ -22,7 +22,7 @@ Simple React component using [MUI-Datatables](https://github.com/gregnb/mui-data
 
 ### Postman
 
-Import the [postman_collection.json](/postman_collection.json) and send requests.
+Visit my [public collection](https://postman.com/jhordyess/workspace/mini-pern/documentation/20955361-cbb1019b-d7d1-4b8d-9b86-384d48f171fa) for this project and send requests.
 
 ## Multi-container Docker app
 
