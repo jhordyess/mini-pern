@@ -9,5 +9,6 @@ WORKDIR /usr/src/app
 COPY ./backend .
 RUN npm i
 RUN npm run db:build
+RUN npm run db:push
 EXPOSE 4062
 CMD [ "npm", "start" ]
