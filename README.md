@@ -26,7 +26,7 @@ Visit my [public collection](https://postman.com/jhordyess/workspace/mini-pern/d
 
 ## Multi-container Docker app
 
-Run the `build.sh` file, it will create a new project named `mini-pern` and run it; so you can visit:
+Run the `docker-app.sh` file, it will create a new project named `mini-pern` and run it; so you can visit:
 
 - backend: <http://localhost:4062>
 - frontend: <http://localhost:3640>
