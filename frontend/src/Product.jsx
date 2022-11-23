@@ -1,7 +1,6 @@
 import React from "react";
-import "./Product.css";
-import Details from "./Details";
-import MUIDT from "./components/MUIDT";
+import Details from "@components/Details";
+import MUIDT from "@components/MUIDT";
 const exampleCols = [
   { name: "id", label: "id", options: { display: "excluded" } },
   { name: "sku", label: "SKU" },
@@ -51,7 +50,7 @@ const formData = [
   },
 ];
 
-function App() {
+export default function () {
   return (
     <MUIDT
       url="product"
@@ -62,5 +61,3 @@ function App() {
     />
   );
 }
-
-export default App;

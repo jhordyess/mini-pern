@@ -6,8 +6,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+div.container > h2 {
+  text-align: center;
+}
+div.container > div {
+  padding-right: 32px;
+  padding-left: 32px;
+}
+div.container > footer {
+  margin-top: 18px;
+  padding-top: 8px;
+  text-align: center;
+}
+div.container > footer > a {
+  font-weight: bold;
+  text-decoration: none;
 }

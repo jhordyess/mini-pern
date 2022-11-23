@@ -24,12 +24,13 @@ Simple React component using [MUI-Datatables](https://github.com/gregnb/mui-data
 
 Visit my [public collection](https://postman.com/jhordyess/workspace/mini-pern/documentation/20955361-cbb1019b-d7d1-4b8d-9b86-384d48f171fa) for this project and send requests.
 
+## Screenshots
+
+![Index](https://res.cloudinary.com/jhordyess/image/upload/v1669164609/mini-pern/Screenshot.png)
+
 ## Multi-container Docker app
 
-Run the `docker-app.sh` file, it will create a new project named `mini-pern` and run it; so you can visit:
-
-- backend: <http://localhost:4062>
-- frontend: <http://localhost:3640>
+Please review the [docker](https://github.com/jhordyess/mini-pern/tree/docker) branch.
 
 ## Dev Info
 

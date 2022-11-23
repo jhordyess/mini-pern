@@ -1,11 +1,11 @@
 import React from "react";
 import { render } from "react-dom";
 import "./index.css";
-import Product from "./Product";
+import Home from "./Home";
 
 render(
   <React.StrictMode>
-    <Product />
+    <Home />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("app")
 );

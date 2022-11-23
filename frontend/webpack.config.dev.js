@@ -5,7 +5,7 @@ module.exports = {
   entry: path.join(__dirname, "src", "index.js"),
   mode: "development",
   output: {
-    path: path.resolve(__dirname, "docs"),
+    path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
   resolve: {
@@ -36,10 +36,9 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, "docs"),
+      directory: path.join(__dirname, "dist"),
     },
     watchFiles: path.join(__dirname, "src", "**"),
-    // host: "localhost",
     port: 3640,
   },
 };
