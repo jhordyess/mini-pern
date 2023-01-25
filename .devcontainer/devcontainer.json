@@ -1,13 +1,15 @@
 {
-  "name": "frontend",
-  "dockerComposeFile": ["../../docker-compose.yml"],
-  "service": "frontend",
+  "name": "mini-pern/node",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "node",
   "shutdownAction": "none",
   "customizations": {
     "vscode": {
       "extensions": [
         "esbenp.prettier-vscode",
-        "burkeholland.simple-react-snippets"
+        "Prisma.prisma",
+        "xabikos.JavaScriptSnippets",
+        "dsznajder.es7-react-js-snippets",
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh"
@@ -15,6 +17,6 @@
     }
   },
   "postCreateCommand": "bash config.sh",
-  "workspaceFolder": "/mini-pern/frontend",
+  "workspaceFolder": "/mini-pern",
   "remoteUser": "node"
 }

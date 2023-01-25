@@ -1,9 +1,7 @@
 services:
-  pg-sql:
+  postgres:
     image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
+    container_name: mini-pern_postgres
     environment:
       - POSTGRES_PASSWORD
       - DB_USER
@@ -11,23 +9,25 @@ services:
       - DB_NAME
     volumes:
       - ./database/config.sh:/docker-entrypoint-initdb.d/config.sh
-  backend:
+  pga:
     depends_on:
-      - pg-sql
+      - postgres
+    image: dpage/pgadmin4
+    ports:
+      - "80-90:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL
+      - PGADMIN_DEFAULT_PASSWORD
+  node:
+    depends_on:
+      - postgres
     image: jhordyess/node:16
+    container_name: mini-pern_node
     volumes:
       - .:/mini-pern:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
       - DATABASE_URL
     ports:
-      - "4062:4062"
-  frontend:
-    depends_on:
-      - backend
-    image: jhordyess/node:16
-    volumes:
-      - .:/mini-pern:cached
-    command: /bin/sh -c "while sleep 1000; do :; done"
-    ports:
-      - "3640:3640"
+      - "4062-4072:4062"
+      - "3640-3650:3640"
