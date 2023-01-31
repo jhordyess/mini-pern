@@ -8,8 +8,7 @@
       "extensions": [
         "esbenp.prettier-vscode",
         "Prisma.prisma",
-        "xabikos.JavaScriptSnippets",
-        "dsznajder.es7-react-js-snippets",
+        "dsznajder.es7-react-js-snippets"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh"
