@@ -21,7 +21,7 @@ services:
   node:
     depends_on:
       - postgres
-    image: jhordyess/node:16
+    image: jhordyess/node
     container_name: mini-pern_node
     volumes:
       - .:/mini-pern:cached
