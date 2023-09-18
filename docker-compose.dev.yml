@@ -1,0 +1,69 @@
+# name: mini-pern-dev
+services:
+  postgres:
+    image: postgres:14
+    container_name: mini-pern-dev_postgres
+    environment:
+      - POSTGRES_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+    volumes:
+      - type: bind
+        source: ./database/config.sh
+        target: /docker-entrypoint-initdb.d/config.sh
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+    networks:
+      - localnet
+
+  # pgadmin:
+  #   depends_on:
+  #     - postgres
+  #   image: dpage/pgadmin4
+  #   container_name: mini-pern-dev_pgadmin
+  #   ports:
+  #     - "80-90:80"
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL
+  #     - PGADMIN_DEFAULT_PASSWORD
+  #   volumes:
+  #     - type: volume
+  #       source: pgadmin-data
+  #       target: /var/lib/pgadmin
+  #   networks:
+  #     - localnet
+
+  backend:
+    depends_on:
+      - postgres
+    image: jhordyess/node:18
+    container_name: mini-pern-dev_backend
+    volumes:
+      - .:/mini-pern:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      - DATABASE_URL
+    ports:
+      - "3000:3000"
+    networks:
+      - localnet
+
+  frontend:
+    image: jhordyess/node:18
+    container_name: mini-pern-dev_frontend
+    volumes:
+      - .:/mini-pern:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    networks:
+      - localnet
+
+volumes:
+  postgres-data:
+    # pgadmin-data:
+
+
+networks:
+  localnet:
+    driver: bridge

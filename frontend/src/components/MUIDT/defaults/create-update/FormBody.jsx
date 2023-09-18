@@ -1,5 +1,5 @@
-import React from "react";
-import TextField from "@mui/material/TextField";
+import PropTypes from 'prop-types'
+import TextField from '@mui/material/TextField'
 // TODO Definir el tipo de datos para formData, [{label:,name:,default:,options:}]
 // TODO Permitir persistencia
 // TODO Preparar otros tipos de datos
@@ -8,9 +8,9 @@ const FormBody = ({ formData, values, setValues }) => {
   const handleChange = ({ target }) => {
     setValues({
       ...values,
-      [target.name]: target.value,
-    });
-  };
+      [target.name]: target.value
+    })
+  }
   return (
     <>
       {formData
@@ -26,7 +26,13 @@ const FormBody = ({ formData, values, setValues }) => {
           ))
         : null}
     </>
-  );
-};
+  )
+}
 
-export default FormBody;
+FormBody.propTypes = {
+  formData: PropTypes.array.isRequired,
+  values: PropTypes.object.isRequired,
+  setValues: PropTypes.func.isRequired
+}
+
+export default FormBody

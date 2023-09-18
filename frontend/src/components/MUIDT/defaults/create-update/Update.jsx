@@ -1,42 +1,42 @@
-import React from "react";
-import EditIcon from "@mui/icons-material/Edit";
+import PropTypes from 'prop-types'
+import EditIcon from '@mui/icons-material/Edit'
 //
-import api from "@utils/Api";
-import Create from "./Create";
+import api from '@/utils/api'
+import Create from './Create'
 
 const Update = ({
   url,
   formData = [],
-  title = "Update",
-  toolLabel = "Update",
-  okButtonLabel = "Update",
-  cancelButtonLabel = "Cancel",
+  title = 'Update',
+  toolLabel = 'Update',
+  okButtonLabel = 'Update',
+  cancelButtonLabel = 'Cancel',
   afterSubmit,
   onClose,
-  alert,
+  alert
 }) => {
-  const _onOpen = async (setValues) => {
+  const _onOpen = async setValues => {
     try {
       const { data: response } = await api({
         url,
-        requestType: "GET",
-        params: { type: "basic" },
-      });
-      setValues(response.data);
+        requestType: 'GET',
+        params: { type: 'basic' }
+      })
+      setValues(response.data)
     } catch (error) {
-      const _response = error.response?.data;
+      const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || "Request failed",
-        severity: "error",
-      });
+        msg: _response?.data?.error || 'Request failed',
+        severity: 'error'
+      })
     }
-  };
+  }
 
   return (
     <Create
       {...{
         url,
-        requestType: "PUT",
+        requestType: 'PUT',
         formData,
         title,
         toolLabel,
@@ -46,10 +46,22 @@ const Update = ({
         afterSubmit,
         onOpen: _onOpen,
         onClose,
-        alert,
+        alert
       }}
     />
-  );
-};
+  )
+}
 
-export default Update;
+Update.propTypes = {
+  url: PropTypes.string.isRequired,
+  formData: PropTypes.array.isRequired,
+  title: PropTypes.string,
+  toolLabel: PropTypes.string,
+  okButtonLabel: PropTypes.string,
+  cancelButtonLabel: PropTypes.string,
+  afterSubmit: PropTypes.func,
+  onClose: PropTypes.func,
+  alert: PropTypes.func.isRequired
+}
+
+export default Update

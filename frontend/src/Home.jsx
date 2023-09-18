@@ -1,7 +1,6 @@
-import React from "react";
-import Product from "./Product";
+import Product from './Product'
 
-export default function () {
+export default function Home() {
   return (
     <div className="container">
       <h2>Mini PERN</h2>
@@ -9,11 +8,11 @@ export default function () {
         <Product />
       </div>
       <footer>
-        Made with 💪 by{" "}
+        Made with 💪 by{' '}
         <a href="https://jhordyess.com" target="_blank" rel="noreferrer">
           Jhordyess
         </a>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,0 +1,56 @@
+name: mini-pern-prod
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    container_name: mini-pern-prod_postgres
+    environment:
+      - POSTGRES_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+    volumes:
+      - type: bind
+        source: ./database/config.sh
+        target: /docker-entrypoint-initdb.d/config.sh
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+    networks:
+      - localnet
+
+  backend:
+    depends_on:
+      - postgres
+    container_name: mini-pern-prod_backend
+    build:
+      context: ./backend
+      dockerfile: prod.Dockerfile
+      args:
+        - DATABASE_URL
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - localnet
+
+  frontend:
+    depends_on:
+      - backend
+    container_name: mini-pern-prod_frontend
+    build:
+      context: ./frontend
+      dockerfile: prod.Dockerfile
+    restart: always
+    ports:
+      - "80-90:3640"
+    networks:
+      - localnet
+
+volumes:
+  postgres-data:
+
+
+networks:
+  localnet:
+    driver: bridge

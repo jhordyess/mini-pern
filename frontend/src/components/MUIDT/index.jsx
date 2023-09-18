@@ -1,66 +1,66 @@
-import React from "react";
-import MUIDataTable from "mui-datatables";
-//
-import api from "@utils/Api";
-import { spanish } from "./options/internationalization";
-import tableChanges from "./options/tableChanges";
-import customToolbar from "./options/customToolbar";
-import customToolbarSelect from "./options/customToolbarSelect";
-import renderExpandableRow from "./options/renderExpandableRow";
-import Alert from "@components/Alert";
+import { useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import MUIDataTable from 'mui-datatables'
+import api from '@/utils/api'
+// import { spanish } from './options/internationalization'
+import tableChanges from './options/tableChanges'
+import customToolbar from './options/customToolbar'
+import customToolbarSelect from './options/customToolbarSelect'
+import renderExpandableRow from './options/renderExpandableRow'
+import Alert from '@/components/Alert'
 
-const MUIDT = ({
-  url = "",
-  title = "List",
+export default function MUIDT({
+  url = '',
+  title = 'List',
   options = {},
   columns = [],
   formData = [],
   CustomToolbar = null,
   CustomToolbarSelect = null,
   CustomToolbarSelectN = null,
-  ExpandableRow = null,
-}) => {
-  const alertRef = React.useRef();
+  ExpandableRow = null
+}) {
+  const alertRef = useRef()
 
-  const [data, setData] = React.useState([]);
+  const [data, setData] = useState([])
 
-  const [render, setRender] = React.useState({
-    count: 0,
-  });
+  const [render, setRender] = useState({
+    count: 0
+  })
 
-  const [params, setParams] = React.useState({
+  const [params, setParams] = useState({
     page: 0,
     rowsPerPage: 5,
-    sortOrder: {},
-  });
+    sortOrder: {}
+  })
 
-  const alert = ({ msg = "Unknow", severity = "error" }) => {
+  const alert = ({ msg = 'Unknown', severity = 'error' }) => {
     alertRef.current.handleOpen({
       msg,
-      severity,
-    });
-  };
+      severity
+    })
+  }
 
   const serverGet = async () => {
     try {
       const { data: response } = await api({
         url,
         params,
-        requestType: "GET",
-      });
-      const { count, list } = response.data; //!
-      render.count = count;
-      setRender({ ...render });
-      setData(list);
+        requestType: 'GET'
+      })
+      const { count, list } = response.data //!
+      render.count = count
+      setRender({ ...render })
+      setData(list)
     } catch (error) {
       // TODO handle other errors
-      const _response = error.response?.data;
+      const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || "Request failed",
-        severity: "error",
-      });
+        msg: _response?.data?.error || 'Request failed',
+        severity: 'error'
+      })
     }
-  };
+  }
 
   const _options = {
     serverSide: true,
@@ -77,7 +77,7 @@ const MUIDT = ({
     ...tableChanges({
       params,
       setParams,
-      action: serverGet,
+      action: serverGet
     }),
     ...customToolbar({ CustomToolbar, serverGet, formData, url, alert }),
     ...customToolbarSelect({
@@ -86,22 +86,28 @@ const MUIDT = ({
       serverGet,
       formData,
       url,
-      alert,
+      alert
     }),
     ...renderExpandableRow({ ExpandableRow, url, alert }),
-    ...options,
-  };
+    ...options
+  }
 
   return (
     <>
-      <MUIDataTable
-        title={title}
-        data={data}
-        columns={columns}
-        options={_options}
-      />
+      <MUIDataTable title={title} data={data} columns={columns} options={_options} />
       <Alert ref={alertRef} />
     </>
-  );
-};
-export default MUIDT;
+  )
+}
+
+MUIDT.propTypes = {
+  url: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  options: PropTypes.object,
+  columns: PropTypes.array.isRequired,
+  formData: PropTypes.array,
+  CustomToolbar: PropTypes.elementType,
+  CustomToolbarSelect: PropTypes.elementType,
+  CustomToolbarSelectN: PropTypes.elementType,
+  ExpandableRow: PropTypes.elementType
+}

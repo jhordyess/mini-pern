@@ -1,0 +1,16 @@
+{
+  "name": "mini-pern_frontend",
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "frontend",
+  "shutdownAction": "none",
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint"],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+  "postCreateCommand": "sudo npm i npm -g && yarn",
+  "workspaceFolder": "/mini-pern/frontend"
+}

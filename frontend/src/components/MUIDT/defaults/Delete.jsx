@@ -1,41 +1,41 @@
-import React from "react";
-import DialogContentText from "@mui/material/DialogContentText";
-import DeleteIcon from "@mui/icons-material/Delete";
+import PropTypes from 'prop-types'
+import DialogContentText from '@mui/material/DialogContentText'
+import DeleteIcon from '@mui/icons-material/Delete'
 //
-import Toolbar from "../Toolbar";
-import api from "@utils/Api";
+import Toolbar from '../Toolbar'
+import api from '@/utils/api'
 
 const Delete = ({
   url,
   ids = [],
-  title = "Delete",
-  toolLabel = "Delete",
-  okButtonLabel = "Continue",
-  cancelButtonLabel = "Cancel",
+  title = 'Delete',
+  toolLabel = 'Delete',
+  okButtonLabel = 'Continue',
+  cancelButtonLabel = 'Cancel',
   afterSubmit,
   onClose,
-  alert,
+  alert
 }) => {
   const onSubmit = async () => {
     try {
       const { data: response } = await api({
         url,
         params: { ids },
-        requestType: "DELETE",
-      });
+        requestType: 'DELETE'
+      })
       alert({
-        msg: response?.data?.message || "Deleted",
-        severity: "success",
-      });
-      if (afterSubmit) await afterSubmit();
+        msg: response?.data?.message || 'Deleted',
+        severity: 'success'
+      })
+      if (afterSubmit) await afterSubmit()
     } catch (error) {
-      const _response = error.response?.data;
+      const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || "Request failed",
-        severity: "error",
-      });
+        msg: _response?.data?.error || 'Request failed',
+        severity: 'error'
+      })
     }
-  };
+  }
 
   return (
     <Toolbar
@@ -46,16 +46,28 @@ const Delete = ({
         okButtonLabel,
         cancelButtonLabel,
         onSubmit,
-        onClose,
+        onClose
       }}
       FormBody={
         <DialogContentText>
           Are you sure to delete {ids.length} item
-          {ids.length > 1 ? "s" : ""}? Please confirm.
+          {ids.length > 1 ? 's' : ''}? Please confirm.
         </DialogContentText>
       }
     />
-  );
-};
+  )
+}
 
-export default Delete;
+Delete.propTypes = {
+  url: PropTypes.string.isRequired,
+  ids: PropTypes.array.isRequired,
+  title: PropTypes.string,
+  toolLabel: PropTypes.string,
+  okButtonLabel: PropTypes.string,
+  cancelButtonLabel: PropTypes.string,
+  afterSubmit: PropTypes.func,
+  onClose: PropTypes.func,
+  alert: PropTypes.func.isRequired
+}
+
+export default Delete

@@ -1,4 +1,5 @@
-import React from "react";
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Tooltip,
   Button,
@@ -6,38 +7,38 @@ import {
   DialogActions,
   DialogContent,
   IconButton,
-  DialogTitle,
-} from "@mui/material";
-import HelpIcon from "@mui/icons-material/Help";
+  DialogTitle
+} from '@mui/material'
+import HelpIcon from '@mui/icons-material/Help'
 
 const Toolbar = ({
-  title = "Title",
-  toolLabel = "Action",
+  title = 'Title',
+  toolLabel = 'Action',
   Icon = HelpIcon,
-  okButtonLabel = "Accept",
-  cancelButtonLabel = "Cancel",
+  okButtonLabel = 'Accept',
+  cancelButtonLabel = 'Cancel',
   FormBody = null,
   onSubmit = null,
   onOpen = null,
-  onClose = null,
+  onClose = null
 }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false)
 
   const handleClickOpen = async () => {
-    setOpen(true);
-    if (onOpen) await onOpen();
-  };
+    setOpen(true)
+    if (onOpen) await onOpen()
+  }
 
   const handleClose = async () => {
-    setOpen(false);
-    if (onClose) await onClose();
-  };
+    setOpen(false)
+    if (onClose) await onClose()
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (onSubmit) await onSubmit();
-    await handleClose(); //* 😎
-  };
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (onSubmit) await onSubmit()
+    await handleClose() //* 😎
+  }
 
   return (
     <>
@@ -53,7 +54,7 @@ const Toolbar = ({
             dividers
             // sx={{ display: "flex", flexWrap: "wrap" }}
             sx={{
-              "& .MuiTextField-root": { m: 1, width: "27ch" },
+              '& .MuiTextField-root': { m: 1, width: '27ch' }
             }}
           >
             {FormBody ? FormBody : null}
@@ -65,7 +66,19 @@ const Toolbar = ({
         </form>
       </Dialog>
     </>
-  );
-};
+  )
+}
 
-export default Toolbar;
+Toolbar.propTypes = {
+  title: PropTypes.string,
+  toolLabel: PropTypes.string,
+  Icon: PropTypes.elementType,
+  okButtonLabel: PropTypes.string,
+  cancelButtonLabel: PropTypes.string,
+  FormBody: PropTypes.elementType,
+  onSubmit: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func
+}
+
+export default Toolbar
