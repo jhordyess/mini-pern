@@ -9,6 +9,17 @@ if [ -z "$DATABASE_URL" ]; then
   echo "ERROR: \$DATABASE_URL is not defined!"
   exit 1
 else
+  # Get the database host and port
+  DB_HOST_PORT=$(echo $DATABASE_URL | awk -F '[@/]' '{print $4}')
+  DB_HOST=${DB_HOST_PORT%:*}
+  DB_PORT=${DB_HOST_PORT#*:}
+
+  echo "Checking and waiting for the database..."
+  until nc -z $DB_HOST $DB_PORT; do
+    sleep 1
+  done
+  echo "Database is up and running!"
+
   echo "Migration process initiated..."
   yarn prisma migrate deploy
   echo "Migration completed successfully."
