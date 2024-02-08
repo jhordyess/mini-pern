@@ -8,11 +8,11 @@
   "keywords": [],
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "node --watch src/index.js",
     "start": "node src/index.js",
     "build:prisma": "prisma migrate dev",
     "format": "prettier --write \"src/**/*.js\"",
-    "lint": "eslint \"src/**/*.js\""
+    "lint": "eslint . --ext .js"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "eslint": "^8.56.0",
-    "nodemon": "^3.0.3",
     "prettier": "^3.2.5",
     "prisma": "^5.9.1"
   }
