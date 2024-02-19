@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { HttpError } from '../../utils/error'
-import { formatOrderBy, addZeros } from './util'
+import { HttpError } from '../../utils/error.js'
+import { formatOrderBy, addZeros } from './util.js'
 
 const prisma = new PrismaClient()
 
