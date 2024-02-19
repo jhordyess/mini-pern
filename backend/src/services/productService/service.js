@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { HttpError } from '../utils/error'
+import { HttpError } from '../../utils/error'
+import { formatOrderBy, addZeros } from './util'
 
 const prisma = new PrismaClient()
 
@@ -8,40 +9,12 @@ const relation = [
   { table: 'brand', column: 'name' }
 ]
 
-const prismaOrderBy = (sortOrder = {}) => {
-  let order = []
-  if (typeof sortOrder === 'string') {
-    sortOrder = JSON.parse(sortOrder)
-  }
-  if (typeof sortOrder.name !== 'undefined' && typeof sortOrder.direction !== 'undefined') {
-    const aux = {}
-    const n_1 = relation.find(str => str.table === sortOrder.name)
-    if (typeof n_1 !== 'undefined') {
-      const temp = {}
-      temp[n_1.column] = String(sortOrder.direction)
-      aux[n_1.table] = temp
-    } else {
-      aux[sortOrder.name] = String(sortOrder.direction)
-    }
-    order = [aux]
-  }
-  return order
-}
-
-export function addZeros(number = 0, qty = 2) {
-  let str = String(number)
-  for (let i = str.length; i < qty; i++) {
-    str = '0' + str
-  }
-  return str
-}
-
 export const listAllProducts = async (page = 0, rowsPerPage = 10, sortOrder = {}, callback) => {
   try {
     const products = await prisma.product.findMany({
-      skip: parseInt(page) * parseInt(rowsPerPage),
-      take: parseInt(rowsPerPage),
-      orderBy: prismaOrderBy(sortOrder),
+      skip: page * rowsPerPage,
+      take: rowsPerPage,
+      orderBy: formatOrderBy(relation, sortOrder),
       where: {
         deleted: false
       },
@@ -60,11 +33,11 @@ export const listAllProducts = async (page = 0, rowsPerPage = 10, sortOrder = {}
       }
     })
 
-    const formatProducts = products.map((obj = {}) => {
+    const formatProducts = products.map((product = {}) => {
       relation.forEach(item => {
-        obj[item.table] = obj[item.table][item.column]
+        product[item.table] = product[item.table][item.column]
       })
-      return obj
+      return product
     })
 
     callback(null, formatProducts)
@@ -110,6 +83,7 @@ export const getProductDetail = async (id, callback) => {
         details: true
       }
     })
+
     callback(null, product)
   } catch (error) {
     callback(error)
@@ -252,15 +226,13 @@ export const deleteProduct = async (ids, callback) => {
   }
 }
 
-export const countProducts = async (sw = false) => {
+export const countProducts = async () => {
   try {
-    return !sw
-      ? await prisma.product.count()
-      : await prisma.product.count({
-          where: {
-            deleted: false
-          }
-        })
+    return await prisma.product.count({
+      where: {
+        deleted: false
+      }
+    })
   } catch (error) {
     console.error(error)
     return 0

@@ -6,7 +6,7 @@ import {
   listAllProducts as listAllProductsService,
   createProduct as createProductService,
   updateProduct as updateProductService
-} from '../services/productService.js'
+} from '../services/productService/service.js'
 
 export const listAllProducts = async (req, res, next) => {
   try {
@@ -18,7 +18,7 @@ export const listAllProducts = async (req, res, next) => {
       sortOrder: sortOrder || {}
     }
 
-    const count = await countProducts(true)
+    const count = await countProducts()
 
     await listAllProductsService(query, (error, list) => {
       if (error) next(error)
