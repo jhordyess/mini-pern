@@ -203,7 +203,7 @@ export const updateProduct = async (
   }
 }
 
-export const deleteProduct = async (ids, callback) => {
+export const deleteProducts = async (ids, callback) => {
   try {
     const { count } = await prisma.product.updateMany({
       where: {

@@ -1,26 +1,21 @@
 import { HttpError } from '../utils/error.js'
 import {
   countProducts,
-  getProduct,
+  getProduct as getProductService,
   getProductDetail,
   listAllProducts as listAllProductsService,
   createProduct as createProductService,
-  updateProduct as updateProductService
+  updateProduct as updateProductService,
+  deleteProducts as deleteProductsService
 } from '../services/productService/service.js'
 
 export const listAllProducts = async (req, res, next) => {
   try {
-    const { page, rowsPerPage, sortOrder } = req.query
-
-    const query = {
-      page: page || 0,
-      rowsPerPage: rowsPerPage || 10,
-      sortOrder: sortOrder || {}
-    }
+    const { page = 0, rowsPerPage = 10, sortOrder = {} } = req.query
 
     const count = await countProducts()
 
-    await listAllProductsService(query, (error, list) => {
+    await listAllProductsService(page, rowsPerPage, sortOrder, (error, list) => {
       if (error) next(error)
 
       if (!list) throw new HttpError('Error while getting products', 500, false)
@@ -37,12 +32,12 @@ export const listAllProducts = async (req, res, next) => {
   }
 }
 
-export const getProductInfo = async (req, res, next) => {
+export const getProduct = async (req, res, next) => {
   const id = req.params.id
-  const type = req.query.type //basic|| details
+  const type = req.query.type
 
   if (type === 'basic') {
-    await getProduct(id, (error, data) => {
+    await getProductService(id, (error, data) => {
       if (error) next(error)
       if (!data) throw new HttpError('Error while getting product', 500, false)
       res.status(200).json({
@@ -101,16 +96,35 @@ export const updateProduct = async (req, res, next) => {
       details,
       category,
       brand,
-      (error, length) => {
+      (error, data) => {
         if (error) next(error)
 
-        if (!length) throw new HttpError('Error while updating product', 500, false)
+        if (!data) throw new HttpError('Error while updating product', 500, false)
 
         res.status(200).json({
-          message: `${length} product${length > 1 ? 's' : ''} deleted`
+          message: 'Product updated',
+          data
         })
       }
     )
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteProducts = async (req, res, next) => {
+  try {
+    const ids = req.params.id
+
+    await deleteProductsService(ids, (error, quantity) => {
+      if (error) next(error)
+
+      if (!quantity) throw new HttpError('Error while updating product', 500, false)
+
+      res.status(200).json({
+        message: `${quantity} product${quantity > 1 ? 's' : ''} deleted`
+      })
+    })
   } catch (error) {
     next(error)
   }
