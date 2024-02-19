@@ -1,24 +1,20 @@
-import response from './../utils/routes.response.js'
-import BaseController from './base.controller.js'
+import { HttpError } from '../utils/error.js'
 
-export default class BrandCtl extends BaseController {
-  createBrand = async req => {
+export const createBrand = async (req, res, next) => {
+  try {
     const { name } = req.body
-    if (!name || typeof name !== 'string')
-      throw response.throw({ message: 'The property "name" is invalid' })
-    const brand = await this.prisma.brand.upsert({
-      where: {
-        name: name
-      },
-      update: {},
-      create: {
-        name: name
-      }
+
+    await createBrand(name, (error, data) => {
+      if (error) next(error)
+
+      if (!data) throw new HttpError('Brand not created', 500, false)
+
+      res.status(201).json({
+        message: 'Brand created',
+        data
+      })
     })
-    await this.disconnect()
-    return response.normal({
-      statusCode: 201,
-      data: { brand, message: 'Brand created' }
-    })
+  } catch (error) {
+    next(error)
   }
 }

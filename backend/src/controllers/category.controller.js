@@ -1,24 +1,21 @@
-import response from './../utils/routes.response.js'
-import BaseController from './base.controller.js'
+import { HttpError } from '../utils/error.js'
+import { createCategory as createCategoryService } from '../services/categoryService.js'
 
-export default class CategoryCtl extends BaseController {
-  createCategory = async req => {
+export const createCategory = async (req, res, next) => {
+  try {
     const { name } = req.body
-    if (!name || typeof name !== 'string')
-      throw response.throw({ message: 'The property "name" is invalid' })
-    const category = await this.prisma.category.upsert({
-      where: {
-        name: name
-      },
-      update: {},
-      create: {
-        name: name
-      }
+
+    await createCategoryService(name, (error, data) => {
+      if (error) next(error)
+
+      if (!data) throw new HttpError('Category not created', 500, false)
+
+      res.status(201).json({
+        message: 'Category created',
+        data
+      })
     })
-    await this.disconnect()
-    return response.normal({
-      statusCode: 201,
-      data: { category, message: 'Category created' }
-    })
+  } catch (error) {
+    next(error)
   }
 }

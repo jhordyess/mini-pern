@@ -1,253 +1,117 @@
-import response from './../utils/routes.response.js'
-import BaseController from './base.controller.js'
-import { addZeros } from '../utils/number.js'
+import { HttpError } from '../utils/error.js'
+import {
+  countProducts,
+  getProduct,
+  getProductDetail,
+  listAllProducts as listAllProductsService,
+  createProduct as createProductService,
+  updateProduct as updateProductService
+} from '../services/productService.js'
 
-export default class ProductCtl extends BaseController {
-  constructor() {
-    super([
-      { table: 'category', column: 'name' },
-      { table: 'brand', column: 'name' }
-    ])
-  }
+export const listAllProducts = async (req, res, next) => {
+  try {
+    const { page, rowsPerPage, sortOrder } = req.query
 
-  listAllProducts = async req => {
-    const { page = 0, rowsPerPage = 10, sortOrder = {} } = req.query
-    let products = await this.prisma.product.findMany({
-      skip: this.prismaSkip(page, rowsPerPage),
-      take: this.prismaTake(rowsPerPage),
-      orderBy: this.prismaOrderBy(sortOrder),
-      where: {
-        deleted: false
-      },
-      select: {
-        id: true,
-        sku: true,
-        productName: true,
-        price: true,
-        stock: true,
-        category: {
-          select: { name: true }
-        },
-        brand: {
-          select: { name: true }
-        }
-      }
-    })
-    await this.disconnect()
-    return response.normal({
-      data: {
-        count: await this.#countProducts(true),
-        list: this.formatRelation(products)
-      }
-    })
-  }
-
-  getProductInfo = async req => {
-    const id = req.params.id
-    const type = req.query.type
-    if (typeof id === 'undefined') throw response.throw({ message: 'Invalid identifier' })
-    let product = {}
-    switch (type) {
-      case 'basic':
-        product = await this.prisma.product.findUnique({
-          where: {
-            id: parseInt(id)
-          },
-          select: {
-            productName: true,
-            price: true,
-            stock: true,
-            details: true,
-            category: {
-              select: {
-                name: true
-              }
-            },
-            brand: {
-              select: {
-                name: true
-              }
-            }
-          }
-        })
-        product = this.formatObj(product)
-        break
-      case 'details':
-        product = await this.prisma.product.findUnique({
-          where: {
-            id: parseInt(id)
-          },
-          select: {
-            details: true,
-            createdAt: true
-          }
-        })
-        break
-      default:
-        throw response.throw({
-          message: 'Type query invalid',
-          publicError: false
-        })
+    const query = {
+      page: page || 0,
+      rowsPerPage: rowsPerPage || 10,
+      sortOrder: sortOrder || {}
     }
-    await this.disconnect()
-    return response.normal({
-      data: product
-    })
-  }
 
-  createProduct = async req => {
-    const { productName, price, stock, details = '', category, brand } = req.body
-    if (!(productName && price && stock && category && brand))
-      throw response.throw({ message: 'Invalid properties' })
-    let product = await this.prisma.product.create({
-      data: {
-        sku: 'sku',
-        productName: productName,
-        price: parseInt(price),
-        stock: parseInt(stock),
-        details: details,
-        category: {
-          connectOrCreate: {
-            where: {
-              name: category
-            },
-            create: {
-              name: category
-            }
-          }
-        },
-        brand: {
-          connectOrCreate: {
-            where: {
-              name: brand
-            },
-            create: {
-              name: brand
-            }
-          }
+    const count = await countProducts(true)
+
+    await listAllProductsService(query, (error, list) => {
+      if (error) next(error)
+
+      if (!list) throw new HttpError('Error while getting products', 500, false)
+
+      res.status(200).json({
+        data: {
+          list,
+          count
         }
-      }
+      })
     })
-    if (typeof product.id === 'undefined')
-      throw response.throw({ message: "Can't create product!" })
-    product = await this.#addSku(product.id, category, brand)
-    if (typeof product.id === 'undefined') throw response.throw({ message: "Can't create sku!" })
-    await this.disconnect()
-    return response.normal({
-      statusCode: 201,
-      data: { product, message: 'Product created' }
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getProductInfo = async (req, res, next) => {
+  const id = req.params.id
+  const type = req.query.type //basic|| details
+
+  if (type === 'basic') {
+    await getProduct(id, (error, data) => {
+      if (error) next(error)
+      if (!data) throw new HttpError('Error while getting product', 500, false)
+      res.status(200).json({
+        data
+      })
+    })
+  } else if (type === 'details') {
+    await getProductDetail(id, (error, data) => {
+      if (error) next(error)
+      if (!data) throw new HttpError('Error while getting product', 500, false)
+      res.status(200).json({
+        data
+      })
     })
   }
+}
 
-  updateProduct = async req => {
+export const createProduct = async (req, res, next) => {
+  try {
+    const { productName, price, stock, details, category, brand } = req.body
+
+    await createProductService(
+      productName,
+      price,
+      stock,
+      details,
+      category,
+      brand,
+      (error, data) => {
+        if (error) next(error)
+
+        if (!data) throw new HttpError('Error while creating product', 500, false)
+
+        res.status(201).json({
+          message: 'Product created',
+          data
+        })
+      }
+    )
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updateProduct = async (req, res, next) => {
+  try {
     const id = req.params.id
-    const { productName, price, stock, details = '', category, brand } = req.body
-    if (typeof id === 'undefined') throw response.throw({ message: 'Invalid identifier' })
-    if (!(productName && price && stock && category && brand))
-      throw response.throw({ message: 'Invalid properties' })
-    let product = await this.prisma.product.update({
-      where: {
-        id: parseInt(id)
-      },
-      data: {
-        productName: productName,
-        price: parseFloat(price),
-        stock: parseInt(stock),
-        details: details,
-        category: {
-          connectOrCreate: {
-            where: {
-              name: category
-            },
-            create: {
-              name: category
-            }
-          }
-        },
-        brand: {
-          connectOrCreate: {
-            where: {
-              name: brand
-            },
-            create: {
-              name: brand
-            }
-          }
-        }
-      }
-    })
-    if (typeof product.id === 'undefined')
-      throw response.throw({ message: "Can't update product!" })
-    product = await this.#addSku(product.id, category, brand) //? Necessary?
-    if (typeof product.id === 'undefined') throw response.throw({ message: "Can't create sku!" })
-    await this.disconnect()
-    return response.normal({
-      statusCode: 201,
-      data: { product, message: 'Product modificated' }
-    })
-  }
 
-  deleteProduct = async req => {
-    const { ids } = req.body //!array
-    if (typeof ids === 'undefined') throw response.throw({ message: 'Invalid selection' })
-    const { count } = await this.prisma.product.updateMany({
-      where: {
-        OR: ids.map(id => {
-          return { id: parseInt(id) }
-        })
-      },
-      data: {
-        deleted: true
-      }
-    })
-    if (count !== ids.length) throw response.throw({ message: 'Delete uncomplete' })
-    return response.normal({
-      data: { message: `${ids.length} products deleted` }
-    })
-  }
+    const { productName, price, stock, details, category, brand } = req.body
 
-  #countProducts = async (sw = false) =>
-    !sw
-      ? await this.prisma.product.count()
-      : await this.prisma.product.count({
-          where: {
-            deleted: false
-          }
+    await updateProductService(
+      id,
+      productName,
+      price,
+      stock,
+      details,
+      category,
+      brand,
+      (error, length) => {
+        if (error) next(error)
+
+        if (!length) throw new HttpError('Error while updating product', 500, false)
+
+        res.status(200).json({
+          message: `${length} product${length > 1 ? 's' : ''} deleted`
         })
-  /**
-   * Update the sku in the product
-   * @param {Number} id
-   * @param {String} category
-   * @param {String} brand
-   * @returns {Booleean} true if update was successful
-   */
-  #addSku = async (id, category, brand) => {
-    const _category = await this.prisma.category.update({
-      where: {
-        name: category
-      },
-      data: {
-        prodsQnt: { increment: 1 }
       }
-    })
-    const _brand = await this.prisma.brand.update({
-      where: {
-        name: brand
-      },
-      data: {
-        prodsQnt: { increment: 1 }
-      }
-    })
-    const sku = [_brand.id, _brand.prodsQnt - 1, _category.id, _category.prodsQnt - 1]
-      .map(item => addZeros(item))
-      .join('')
-    return await this.prisma.product.update({
-      where: {
-        id: id
-      },
-      data: {
-        sku: sku
-      }
-    })
+    )
+  } catch (error) {
+    next(error)
   }
 }
