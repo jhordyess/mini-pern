@@ -1,7 +1,7 @@
 {
-  "name": "mini-pern_backend",
-  "dockerComposeFile": "../docker-compose.dev.yml",
-  "service": "backend",
+  "name": "mini-pern",
+  "dockerComposeFile": "./docker-compose.dev.yml",
+  "service": "app",
   "shutdownAction": "none",
   "customizations": {
     "vscode": {
@@ -11,6 +11,6 @@
       }
     }
   },
-  "postCreateCommand": "sudo npm i npm -g && yarn && yarn build:prisma",
-  "workspaceFolder": "/mini-pern/backend"
+  "postCreateCommand": "sudo npm i npm -g && yarn",
+  "workspaceFolder": "/mini-pern"
 }

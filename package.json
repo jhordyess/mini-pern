@@ -1,0 +1,22 @@
+{
+  "name": "mini-pern",
+  "description": "",
+  "version": "1.1.0",
+  "author": "Jhordy Gavinchu <dev@jhordyess.com>",
+  "license": "MIT",
+  "private": true,
+  "keywords": [],
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "yarn workspace mini-pern_backend dev",
+    "dev:frontend": "yarn workspace mini-pern_frontend dev",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  },
+  "packageManager": "yarn@4.1.1"
+}

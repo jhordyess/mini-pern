@@ -18,50 +18,21 @@ services:
     networks:
       - localnet
 
-  # pgadmin:
-  #   depends_on:
-  #     - postgres
-  #   image: dpage/pgadmin4
-  #   container_name: mini-pern-dev_pgadmin
-  #   ports:
-  #     - "80-90:80"
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL
-  #     - PGADMIN_DEFAULT_PASSWORD
-  #   volumes:
-  #     - type: volume
-  #       source: pgadmin-data
-  #       target: /var/lib/pgadmin
-  #   networks:
-  #     - localnet
-
-  backend:
+  app:
     depends_on:
       - postgres
     image: jhordyess/node:18
-    container_name: mini-pern-dev_backend
+    container_name: mini-pern-dev
     volumes:
       - .:/mini-pern:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
       - DATABASE_URL
-    ports:
-      - "3000:3000"
-    networks:
-      - localnet
-
-  frontend:
-    image: jhordyess/node:18
-    container_name: mini-pern-dev_frontend
-    volumes:
-      - .:/mini-pern:cached
-    command: /bin/sh -c "while sleep 1000; do :; done"
     networks:
       - localnet
 
 volumes:
   postgres-data:
-    # pgadmin-data:
 
 
 networks:

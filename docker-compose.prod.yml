@@ -30,7 +30,7 @@ services:
         - DATABASE_URL
     restart: always
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - localnet
 
@@ -43,13 +43,12 @@ services:
       dockerfile: prod.Dockerfile
     restart: always
     ports:
-      - "80-90:3640"
+      - '80-90:3640'
     networks:
       - localnet
 
 volumes:
   postgres-data:
-
 
 networks:
   localnet:
