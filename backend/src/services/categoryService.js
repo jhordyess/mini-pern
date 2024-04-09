@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export const createCategory = async (name, callback) => {
   try {
-    const category = await this.prisma.category.upsert({
+    const category = await prisma.category.upsert({
       where: {
         name: name
       },

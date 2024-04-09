@@ -36,22 +36,26 @@ export const getProduct = async (req, res, next) => {
   const id = req.params.id
   const type = req.query.type
 
-  if (type === 'basic') {
-    await getProductService(id, (error, data) => {
-      if (error) next(error)
-      if (!data) throw new HttpError('Error while getting product', 500, false)
-      res.status(200).json({
-        data
+  try {
+    if (type === 'basic') {
+      await getProductService(id, (error, data) => {
+        if (error) next(error)
+        if (!data) throw new HttpError('Error while getting product', 500, false)
+        res.status(200).json({
+          data
+        })
       })
-    })
-  } else if (type === 'details') {
-    await getProductDetail(id, (error, data) => {
-      if (error) next(error)
-      if (!data) throw new HttpError('Error while getting product', 500, false)
-      res.status(200).json({
-        data
+    } else if (type === 'details') {
+      await getProductDetail(id, (error, data) => {
+        if (error) next(error)
+        if (!data) throw new HttpError('Error while getting product', 500, false)
+        res.status(200).json({
+          data
+        })
       })
-    })
+    }
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -114,7 +118,7 @@ export const updateProduct = async (req, res, next) => {
 
 export const deleteProducts = async (req, res, next) => {
   try {
-    const ids = req.params.id
+    const { ids } = req.body
 
     await deleteProductsService(ids, (error, quantity) => {
       if (error) next(error)

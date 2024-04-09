@@ -25,6 +25,6 @@ router.post('/', ...withValidation(createProductCheck, createProduct))
 
 router.put('/:id', ...withValidation(updateProductCheck, updateProduct))
 
-router.delete('/:id', ...withValidation(deleteProductsCheck, deleteProducts))
+router.delete('/', ...withValidation(deleteProductsCheck, deleteProducts))
 
 export default router

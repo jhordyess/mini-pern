@@ -57,7 +57,13 @@ export const getProduct = async (id, callback) => {
       select: {
         productName: true,
         price: true,
-        stock: true
+        stock: true,
+        category: {
+          select: { name: true }
+        },
+        brand: {
+          select: { name: true }
+        }
       }
     })
 
@@ -80,7 +86,8 @@ export const getProductDetail = async (id, callback) => {
         id
       },
       select: {
-        details: true
+        details: true,
+        createdAt: true
       }
     })
 
@@ -243,7 +250,7 @@ export const countProducts = async () => {
 
 const addSku = async (id, category, brand) => {
   try {
-    const newCategory = await this.prisma.category.update({
+    const newCategory = await prisma.category.update({
       where: {
         name: category
       },
@@ -251,7 +258,7 @@ const addSku = async (id, category, brand) => {
         prodsQnt: { increment: 1 }
       }
     })
-    const newBrand = await this.prisma.brand.update({
+    const newBrand = await prisma.brand.update({
       where: {
         name: brand
       },
@@ -262,7 +269,7 @@ const addSku = async (id, category, brand) => {
     const sku = [newBrand.id, newBrand.prodsQnt - 1, newCategory.id, newCategory.prodsQnt - 1]
       .map(item => addZeros(item))
       .join('')
-    return await this.prisma.product.update({
+    return await prisma.product.update({
       where: {
         id
       },

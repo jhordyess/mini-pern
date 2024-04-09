@@ -117,7 +117,7 @@ export const updateProductCheck = [
 ]
 
 export const deleteProductsCheck = [
-  param('ids')
+  body('ids')
     .notEmpty()
     .withMessage('ids is required')
     .bail()
