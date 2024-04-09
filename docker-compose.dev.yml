@@ -3,6 +3,8 @@ services:
   postgres:
     image: postgres:14
     container_name: mini-pern-dev_postgres
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD
       - DB_USER

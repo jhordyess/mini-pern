@@ -1,14 +1,11 @@
 FROM node:18-alpine as build
 
-# RUN npm i -g npm
-
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile
-
 COPY src ./src
-COPY .eslintrc.cjs .prettierrc index.html vite.config.js ./
+COPY package.json .eslintrc.cjs index.html vite.config.js ./
+
+RUN yarn
 
 RUN yarn build
 

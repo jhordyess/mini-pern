@@ -7,7 +7,7 @@ import brandRouter from './routes/brand/router.js'
 import { errorHandler, healthCheckHandler, notFoundHandler } from './middlewares/handlers.js'
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.BACKEND_PORT || 3000
 
 // Middlewares
 app.use(morgan('dev'))

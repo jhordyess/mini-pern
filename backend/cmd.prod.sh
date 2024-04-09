@@ -20,6 +20,10 @@ else
   done
   echo "Database is up and running!"
 
+  echo "Generating schema..."
+  yarn prisma generate
+  echo "Schema generated successfully."
+
   echo "Migration process initiated..."
   yarn prisma migrate deploy
   echo "Migration completed successfully."

@@ -1,21 +1,16 @@
 FROM node:18-alpine
 
-# RUN npm i -g npm
-
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile
-
+COPY package.json cmd.prod.sh./
 COPY prisma ./prisma
 COPY src ./src
-COPY cmd.prod.sh ./
+
+RUN yarn
 
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
 ENV PORT=3000
-
-RUN yarn prisma generate
 
 EXPOSE 3000
 
