@@ -28,6 +28,10 @@ else
   yarn prisma migrate deploy
   echo "Migration completed successfully."
 
+  echo "Seed process initiated..."
+  yarn prisma db seed
+  echo "Seed completed successfully."
+
   echo "Starting the server..."
   yarn start
 fi

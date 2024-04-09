@@ -103,8 +103,6 @@ Take note that this production configuration is just for testing purposes, and m
 
 ## To-Do
 
-- Add seed for DB
-- Add frontend env variable for API URL
 - Add more to-do's 😅
 
 ## Contribution
