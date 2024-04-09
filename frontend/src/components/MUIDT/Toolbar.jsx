@@ -75,7 +75,7 @@ Toolbar.propTypes = {
   Icon: PropTypes.elementType,
   okButtonLabel: PropTypes.string,
   cancelButtonLabel: PropTypes.string,
-  FormBody: PropTypes.elementType,
+  FormBody: PropTypes.node,
   onSubmit: PropTypes.func,
   onOpen: PropTypes.func,
   onClose: PropTypes.func
