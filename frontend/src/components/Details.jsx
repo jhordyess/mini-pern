@@ -6,7 +6,7 @@ const fetchData = async url => {
   try {
     const { data: response } = await api({
       url,
-      params: { type: 'details' },
+      query: { type: 'details' },
       requestType: 'GET'
     })
 

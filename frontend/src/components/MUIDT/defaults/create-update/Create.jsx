@@ -36,18 +36,18 @@ const Create = ({
     try {
       const { data: response } = await api({
         url,
-        params: values,
+        body: values,
         requestType
       })
       alert({
-        msg: response?.data?.message,
+        msg: response?.message,
         severity: 'success'
       })
       if (afterSubmit) await afterSubmit()
     } catch (error) {
       const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || 'Request failed',
+        msg: _response?.error || 'Request failed',
         severity: 'error'
       })
     }

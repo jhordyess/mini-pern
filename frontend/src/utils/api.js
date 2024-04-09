@@ -9,20 +9,20 @@ const API = axios.create({
   }
 })
 
-export default function api({ url, requestType, params = {} }) {
+export default function api({ url, requestType, query = {}, body = {} }) {
   let promise
   switch (requestType) {
     case 'GET':
-      promise = API.get(url, { params: params })
+      promise = API.get(url, { params: query })
       break
     case 'POST':
-      promise = API.post(url, params)
+      promise = API.post(url, body)
       break
     case 'PUT':
-      promise = API.put(url, params)
+      promise = API.put(url, body)
       break
     case 'DELETE':
-      promise = API.delete(url, { data: params })
+      promise = API.delete(url, { data: body })
       break
     default:
       console.warn('Unsupported request type')

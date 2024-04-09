@@ -20,18 +20,18 @@ const Delete = ({
     try {
       const { data: response } = await api({
         url,
-        params: { ids },
+        body: { ids },
         requestType: 'DELETE'
       })
       alert({
-        msg: response?.data?.message || 'Deleted',
+        msg: response?.message || 'Deleted',
         severity: 'success'
       })
       if (afterSubmit) await afterSubmit()
     } catch (error) {
       const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || 'Request failed',
+        msg: _response?.error || 'Request failed',
         severity: 'error'
       })
     }

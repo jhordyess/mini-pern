@@ -45,7 +45,7 @@ export default function MUIDT({
     try {
       const { data: response } = await api({
         url,
-        params,
+        query: params,
         requestType: 'GET'
       })
       const { count, list } = response.data //!
@@ -56,7 +56,7 @@ export default function MUIDT({
       // TODO handle other errors
       const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || 'Request failed',
+        msg: _response?.error || 'Request failed',
         severity: 'error'
       })
     }

@@ -20,13 +20,13 @@ const Update = ({
       const { data: response } = await api({
         url,
         requestType: 'GET',
-        params: { type: 'basic' }
+        query: { type: 'basic' }
       })
       setValues(response.data)
     } catch (error) {
       const _response = error.response?.data
       alert({
-        msg: _response?.data?.error || 'Request failed',
+        msg: _response?.error || 'Request failed',
         severity: 'error'
       })
     }
