@@ -13,6 +13,8 @@
   "scripts": {
     "dev:backend": "yarn workspace mini-pern_backend dev",
     "dev:frontend": "yarn workspace mini-pern_frontend dev",
+    "db:migrate": "yarn workspace mini-pern_backend orm:migrate",
+    "db:reset": "yarn workspace mini-pern_backend orm:reset",
     "format": "prettier --write ."
   },
   "devDependencies": {
