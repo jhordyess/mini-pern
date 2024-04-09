@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
-    "build:prisma": "prisma migrate dev",
+    "orm:migrate": "prisma migrate dev",
+    "orm:reset": "prisma migrate reset",
     "lint": "eslint . --ext .js"
   },
   "dependencies": {
@@ -21,7 +22,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "prisma": "^5.12.1"
   }
 }
