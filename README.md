@@ -18,8 +18,6 @@ For the database, the following model was used:
 
 ![Logical model](./docs/logical_model.drawio.png)
 
-Also I've created a [public collection](https://postman.com/jhordyess/workspace/mini-pern/documentation/20955361-cbb1019b-d7d1-4b8d-9b86-384d48f171fa) for this project in Postman, that you can use to test the API. Note that you need to have the backend running in order to use it.
-
 ### Technologies Used
 
 #### Backend
